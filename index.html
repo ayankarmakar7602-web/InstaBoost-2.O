@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>InstaBoost Pro | Premium SMM</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
+
+    <style>
+        /* CORE STYLES */
+        body { font-family: 'Manrope', sans-serif; background-color: #000; margin: 0; padding: 0; display: flex; justify-content: center; min-height: 100vh; color: white; -webkit-tap-highlight-color: transparent; }
+        .mobile-frame { width: 100%; max-width: 450px; background: #0f0f0f; min-height: 100vh; position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
+
+        /* LOGIN SCREEN */
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; }
+        .auth-card { background: #151515; padding: 40px 25px; border-radius: 25px; text-align: center; width: 85%; border: 1px solid #222; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .auth-logo { font-size: 55px; color: #22c55e; margin-bottom: 15px; }
+        .google-btn { width: 100%; background: white; color: black; padding: 15px; border-radius: 12px; border: none; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; font-size: 16px; margin-top: 25px; }
+
+        /* DASHBOARD HEADER */
+        .dashboard-header { background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(10px); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
+        .profile-pic { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #22c55e; object-fit: cover; }
+        .user-name { font-size: 15px; font-weight: 800; }
+        .header-icons i { font-size: 18px; color: #fff; background: #222; padding: 10px; border-radius: 50%; border: 1px solid #333; cursor: pointer; }
+
+        /* MAIN CONTENT */
+        .container { padding: 15px; padding-bottom: 80px; }
+        .stats-card { background: linear-gradient(135deg, #1e1e1e, #111); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid #333; display: flex; justify-content: space-around; }
+        .stat-val { font-size: 18px; font-weight: 800; color: #22c55e; }
+        .stat-label { font-size: 10px; color: #777; text-transform: uppercase; }
+
+        .section-head { font-size: 15px; font-weight: 700; margin: 20px 0 12px; border-left: 3px solid #22c55e; padding-left: 8px; }
+        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .menu-item { background: #1a1a1a; border-radius: 12px; padding: 15px 5px; border: 1px solid #2a2a2a; text-align: center; cursor: pointer; transition: 0.2s; }
+        .menu-item:active { transform: scale(0.95); }
+        .menu-icon-box { width: 40px; height: 40px; border-radius: 10px; background: #252525; display: flex; justify-content: center; align-items: center; margin: 0 auto 8px; }
+        .menu-title { font-size: 11px; color: #ccc; }
+
+        /* SERVICE LISTS */
+        .card { background: #1a1a1a; border-radius: 12px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; }
+        .buy-btn { background: #fff; color: #000; border: none; padding: 8px 18px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+        .price { color: #22c55e; font-weight: bold; font-size: 16px; }
+
+        /* MODAL STYLES */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 5000; }
+        .modal-content { background: #1a1a1a; width: 85%; padding: 25px; border-radius: 20px; border: 1px solid #333; text-align: center; }
+        .input-field { width: 90%; padding: 14px; border-radius: 10px; border: 1px solid #333; background: #0f0f0f; color: white; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+<div id="login-screen">
+    <div class="auth-card">
+        <div class="auth-logo"><i class="fab fa-instagram"></i></div>
+        <h2 style="margin:0;">InstaBoost Pro</h2>
+        <p style="color:#777; font-size:13px; margin-top:5px;">Join the #1 SMM Panel</p>
+        <button onclick="loginWithGoogle()" class="google-btn">
+            <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20">
+            Sign in with Google
+        </button>
+    </div>
+</div>
+
+<div class="mobile-frame" id="main-ui" style="display:none;">
+    <div class="dashboard-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <img id="user-pic" src="" class="profile-pic">
+            <div style="text-align:left;">
+                <div class="user-name" id="user-name">Guest</div>
+                <div style="font-size:10px; color:#22c55e;">Online • VIP</div>
+            </div>
+        </div>
+        <div class="header-icons">
+            <i class="fas fa-sign-out-alt" onclick="logout()"></i>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="stats-card">
+            <div style="text-align:center;">
+                <div class="stat-val">₹<span id="stat-spend">0</span></div>
+                <div class="stat-label">Spent</div>
+            </div>
+            <div style="width:1px; background:#333;"></div>
+            <div style="text-align:center;">
+                <div class="stat-val" id="stat-orders">0</div>
+                <div class="stat-label">Orders</div>
+            </div>
+        </div>
+
+        <div class="section-head">Instagram Services</div>
+        <div class="menu-grid" id="main-menu">
+            <div class="menu-item" onclick="loadService('followers')">
+                <div class="menu-icon-box"><i class="fas fa-user-plus" style="color:#4facfe;"></i></div>
+                <div class="menu-title">Followers</div>
+            </div>
+            <div class="menu-item" onclick="loadService('likes')">
+                <div class="menu-icon-box"><i class="fas fa-heart" style="color:#ff4b4b;"></i></div>
+                <div class="menu-title">Likes</div>
+            </div>
+            <div class="menu-item" onclick="loadService('views')">
+                <div class="menu-icon-box"><i class="fas fa-play" style="color:#fbc2eb;"></i></div>
+                <div class="menu-title">Views</div>
+            </div>
+        </div>
+
+        <div id="service-view" style="display:none;">
+            <div style="margin-bottom:15px; color:#777; cursor:pointer;" onclick="goHome()">← Back</div>
+            <div id="service-title" class="section-head">Plans</div>
+            <div id="plans-list"></div>
+        </div>
+    </div>
+</div>
+
+<form id="orderForm" action="https://formsubmit.co/ayankarmakar7602@gmail.com" method="POST" style="display:none;">
+    <input type="hidden" name="User_Email" id="f_email">
+    <input type="hidden" name="Order_Plan" id="f_plan">
+    <input type="hidden" name="Price" id="f_price">
+    <input type="hidden" name="Target_Link" id="f_link">
+</form>
+
+<script>
+    // Firebase Setup from your screenshot
+    const firebaseConfig = {
+        apiKey: "AIzaSyA5K1QKiargkaNs9rOYIxpT7iUAnT-G@g4",
+        authDomain: "instaboost-pro-ca373.firebaseapp.com",
+        projectId: "instaboost-pro-ca373",
+        storageBucket: "instaboost-pro-ca373.firebasestorage.app",
+        messagingSenderId: "609574441073",
+        appId: "1:609574441073:web:785d1416a08915e1dc0bd0"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    // Login Function
+    function loginWithGoogle() {
+        auth.signInWithPopup(provider).then((res) => {
+            updateUI(res.user);
+        }).catch(e => alert("Error: " + e.message));
+    }
+
+    function updateUI(user) {
+        if(user) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-ui').style.display = 'flex';
+            document.getElementById('user-name').innerText = user.displayName;
+            document.getElementById('user-pic').src = user.photoURL;
+            loadStats(user.email);
+        }
+    }
+
+    function logout() {
+        auth.signOut().then(() => location.reload());
+    }
+
+    // Auth Listener
+    auth.onAuthStateChanged(user => { if(user) updateUI(user); });
+
+    // SMM Data
+    const plansData = {
+        'followers': [{n:'100 Followers', p:19}, {n:'500 Followers', p:75}, {n:'1000 Followers', p:149}],
+        'likes': [{n:'100 Likes', p:20}, {n:'500 Likes', p:90}, {n:'1000 Likes', p:170}],
+        'views': [{n:'1000 Views', p:10}, {n:'5000 Views', p:50}, {n:'10k Views', p:100}]
+    };
+
+    function loadService(key) {
+        document.getElementById('main-menu').style.display = 'none';
+        document.getElementById('service-view').style.display = 'block';
+        document.getElementById('service-title').innerText = key.toUpperCase();
+        let list = document.getElementById('plans-list');
+        list.innerHTML = "";
+        plansData[key].forEach(plan => {
+            list.innerHTML += `<div class="card">
+                <div><b>${plan.n}</b></div>
+                <div class="price">₹${plan.p}</div>
+                <button class="buy-btn" onclick="buyPlan('${plan.n}', ${plan.p})">BUY</button>
+            </div>`;
+        });
+    }
+
+    function buyPlan(name, price) {
+        let link = prompt("Enter Instagram Link:");
+        if(!link) return;
+
+        // FormSubmit Notification
+        document.getElementById('f_email').value = auth.currentUser.email;
+        document.getElementById('f_plan').value = name;
+        document.getElementById('f_price').value = "₹" + price;
+        document.getElementById('f_link').value = link;
+        
+        // Open UPI Payment
+        const upi = `upi://pay?pa=ayan3529@ptyes&am=${price}&cu=INR&tn=Order_${name}`;
+        window.location.href = upi;
+
+        // Send Email notification
+        fetch(document.getElementById('orderForm').action, {
+            method: 'POST',
+            body: new FormData(document.getElementById('orderForm'))
+        });
+        
+        alert("Payment App Opening... Please complete payment and take a screenshot.");
+    }
+
+    function loadStats(email) {
+        // Local storage demo stats
+        document.getElementById('stat-spend').innerText = "0";
+        document.getElementById('stat-orders').innerText = "0";
+    }
+
+    function goHome() {
+        document.getElementById('main-menu').style.display = 'grid';
+        document.getElementById('service-view').style.display = 'none';
+    }
+</script>
+</body>
+</html>
