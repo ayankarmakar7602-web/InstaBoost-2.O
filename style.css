@@ -1,0 +1,135 @@
+:root {
+    --primary: #22c55e;
+    --dark-bg: #000000;
+    --card-bg: #111111;
+    --text-white: #ffffff;
+    --text-gray: #888888;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: var(--text-white);
+    margin: 0;
+    font-family: 'Manrope', sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+.mobile-frame {
+    width: 100%;
+    max-width: 450px;
+    background: var(--dark-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #222;
+}
+
+.logo { font-size: 24px; font-weight: 800; }
+.logo span { color: var(--primary); }
+
+.support-btn {
+    background: #1a1a1a;
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-size: 13px;
+    border: 1px solid #333;
+    cursor: pointer;
+}
+
+.content-area { padding: 20px; }
+
+.stats-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #222;
+}
+
+.stat-card i { color: var(--primary); font-size: 20px; }
+.stat-label { font-size: 11px; color: var(--text-gray); display: block; }
+.stat-value { font-size: 18px; font-weight: 800; }
+
+.hero-banner {
+    background: linear-gradient(135deg, #1a1a1a, #000);
+    padding: 30px 20px;
+    border-radius: 20px;
+    border: 1px solid #222;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.hero-banner h1 { font-size: 26px; margin: 0; color: var(--primary); }
+.hero-banner p { color: var(--text-gray); font-size: 14px; }
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.cat-item {
+    background: var(--card-bg);
+    padding: 20px 10px;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid #222;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.cat-item:active { transform: scale(0.95); border-color: var(--primary); }
+.cat-icon { font-size: 28px; margin-bottom: 8px; color: var(--primary); }
+.cat-item span { font-size: 12px; font-weight: 600; }
+
+/* Plan List Styles */
+.plan-item {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #222;
+}
+
+.plan-info h4 { margin: 0; font-size: 15px; }
+.plan-price { color: var(--primary); font-weight: 800; font-size: 18px; }
+
+/* Modal Styles */
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 9999;
+}
+
+.modal-card {
+    background: #111; width: 85%; padding: 25px; border-radius: 25px; border: 1px solid var(--primary);
+}
+
+.styled-input {
+    width: 100%; padding: 15px; background: #000; border: 1px solid #333;
+    border-radius: 12px; color: #fff; margin: 15px 0; box-sizing: border-box;
+}
+
+.action-btn, .pay-now-btn {
+    width: 100%; padding: 15px; background: var(--primary); border: none;
+    border-radius: 12px; font-weight: 800; font-size: 16px; cursor: pointer;
+}

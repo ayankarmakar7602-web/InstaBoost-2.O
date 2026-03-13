@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>InstaBoost Pro | Premium SMM Panel</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="InstaBoost Pro | Grow Your Social Presence">
+    <meta property="og:description" content="Get real Instagram followers, likes, and views instantly. Trusted SMM panel for fast growth.">
+    <meta property="og:image" content="banner.jpg"> 
+    <meta property="og:url" content="https://ayankarmakar7602.github.io/instaboost/">
+
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+    <script src="config.js" defer></script>
+    <script src="services.js" defer></script>
+    <script src="notification.js" defer></script>
+    <script src="utils.js" defer></script>
+    <script src="script.js" defer></script>
+
+    <style>
+        /* এক্সট্রা কিছু স্টাইল যা ইনডেক্সেই রাখলাম সেফটির জন্য */
+        body { background-color: #000; margin: 0; font-family: 'Manrope', sans-serif; display: flex; justify-content: center; color: white; }
+        .mobile-frame { width: 100%; max-width: 450px; background: #0a0a0a; min-height: 100vh; position: relative; }
+        .main-header { padding: 20px; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 22px; font-weight: 800; }
+        .logo span { color: #22c55e; }
+        .stats-area { display: flex; gap: 10px; padding: 20px; }
+        .stat-card { background: #111; flex: 1; padding: 15px; border-radius: 15px; border: 1px solid #222; text-align: center; }
+        .stat-val { display: block; font-size: 18px; font-weight: 800; color: #22c55e; }
+        .stat-lbl { font-size: 10px; color: #777; text-transform: uppercase; }
+        .category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 20px; }
+        .cat-box { background: #151515; padding: 20px 10px; border-radius: 15px; text-align: center; border: 1px solid #222; cursor: pointer; }
+        .cat-box i { font-size: 24px; color: #22c55e; margin-bottom: 8px; }
+        .cat-box span { display: block; font-size: 11px; font-weight: 600; }
+        
+        /* Modal Design */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 10000; }
+        .modal-content { background: #111; width: 85%; padding: 30px; border-radius: 25px; border: 1px solid #22c55e; text-align: center; }
+        .input-box { width: 100%; padding: 15px; background: #000; border: 1px solid #333; border-radius: 12px; color: #fff; margin: 15px 0; box-sizing: border-box; }
+        .btn-pay { width: 100%; padding: 15px; background: #22c55e; color: #000; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="mobile-frame">
+    <header class="main-header">
+        <div class="logo">Insta<span>Boost</span></div>
+        <div onclick="window.location.href='https://ig.me/m/insta.boost._in'"><i class="fab fa-instagram"></i></div>
+    </header>
+
+    <div class="stats-area">
+        <div class="stat-card">
+            <span class="stat-val">₹<span id="stat-spend">0</span></span>
+            <span class="stat-lbl">Spent</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-val" id="stat-orders">0</span>
+            <span class="stat-lbl">Orders</span>
+        </div>
+    </div>
+
+    <div style="padding: 20px; text-align: center;">
+        <h2 style="margin: 0; font-size: 24px;">Grow Instantly ⚡</h2>
+        <p style="color: #666; font-size: 13px;">Premium SMM Services at your fingertips.</p>
+    </div>
+
+    <div class="category-grid" id="main-menu">
+        <div class="cat-box" onclick="showPlans('followers')">
+            <i class="fas fa-user-plus"></i>
+            <span>Followers</span>
+        </div>
+        <div class="cat-box" onclick="showPlans('likes')">
+            <i class="fas fa-heart"></i>
+            <span>Likes</span>
+        </div>
+        <div class="cat-box" onclick="showPlans('views')">
+            <i class="fas fa-play"></i>
+            <span>Views</span>
+        </div>
+    </div>
+
+    <div id="plans-view" style="display:none; padding: 20px;">
+        <div style="color: #22c55e; margin-bottom: 15px; font-weight: 700;" onclick="location.reload()">← Back</div>
+        <div id="plans-list"></div>
+    </div>
+</div>
+
+<div id="order-modal" class="modal">
+    <div class="modal-content">
+        <h3 id="plan-name-display" style="margin:0;">Order Service</h3>
+        <input type="text" id="order-link" class="input-box" placeholder="Paste Instagram Link Here">
+        
+        <div id="payment-step" style="display:none;">
+            <p style="color:#888;">Payable: <span style="color:#22c55e; font-weight:800;">₹<span id="plan-price-display"></span></span></p>
+            <button class="btn-pay" onclick="executePayment()">Pay with UPI / PhonePe</button>
+        </div>
+        
+        <button id="next-btn" class="btn-pay" onclick="checkLink()">Next</button>
+        <p style="color:#555; font-size:11px; margin-top:15px;" onclick="closeOrderModal()">Close</p>
+    </div>
+</div>
+
+<script>
+    // এই কোডটুকু script.js কে সাহায্য করবে
+    let currentTask = {};
+
+    function checkLink() {
+        const link = document.getElementById('order-link').value;
+        if(link.length < 5) return alert("Valid link de mama!");
+        document.getElementById('next-btn').style.display = 'none';
+        document.getElementById('payment-step').style.display = 'block';
+    }
+
+    function executePayment() {
+        const link = document.getElementById('order-link').value;
+        if(window.Engine) {
+            Engine.processPayment(currentTask.name, currentTask.price, link);
+        } else {
+            alert("System loading... try again!");
+        }
+    }
+
+    function closeOrderModal() {
+        document.getElementById('order-modal').style.display = 'none';
+        document.getElementById('payment-step').style.display = 'none';
+        document.getElementById('next-btn').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
